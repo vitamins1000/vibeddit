@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>vibeddit — r/vibecoded</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0e1117;color:#d4d8e0;font-family:'Barlow',sans-serif;font-size:14px;}
+.vb{--ac:#e8610a;--ac-bg:rgba(232,97,10,0.1);}
+.vb.hostile{--ac:#e03030;--ac-bg:rgba(224,48,48,0.1);}
+.vb-hdr{background:#161b22;border-bottom:1px solid #21262d;padding:0 16px;height:48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.vb-logo{font-family:'Space Mono',monospace;font-size:18px;font-weight:700;color:#e6edf3;letter-spacing:-0.02em;}
+.vb-logo .lo{color:var(--ac);transition:color .25s;}
+.mw{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;}
+.lg{color:#3fb950;}.lb{color:#e03030;}
+.tgl{width:48px;height:24px;background:#3fb950;border-radius:12px;border:none;cursor:pointer;position:relative;transition:background .25s ease;flex-shrink:0;}
+.tgl::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;background:white;border-radius:50%;transition:transform .25s ease;}
+.tgl.hostile{background:#e03030;}
+.tgl.hostile::after{transform:translateX(24px);}
+.vb-body{max-width:720px;margin:0 auto;padding:16px;}
+.vb-banner{background:#161b22;border:1px solid #21262d;border-radius:8px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.sn{font-family:'Space Mono',monospace;font-size:15px;font-weight:700;color:#e6edf3;}
+.sn .hi{color:var(--ac);transition:color .25s;}
+.sd{font-size:12px;color:#6e7681;margin-top:3px;}
+.sd .w{color:#e03030;}
+.bp{background:var(--ac);color:white;border:none;border-radius:20px;padding:8px 16px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity .15s,background .25s;flex-shrink:0;}
+.bp:hover{opacity:.85;}.bp:disabled{opacity:.4;cursor:default;}
+.bg{background:transparent;border:1px solid #30363d;color:#8b949e;border-radius:20px;padding:7px 14px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:border-color .15s,color .15s;}
+.bg:hover{border-color:#8b949e;color:#c9d1d9;}
+.vb-form{background:#161b22;border:1px solid var(--ac);border-radius:8px;padding:16px;margin-bottom:12px;transition:border-color .25s;}
+.ftitle{font-family:'Space Mono',monospace;font-size:11px;color:var(--ac);margin:0 0 12px;text-transform:uppercase;letter-spacing:.08em;transition:color .25s;}
+.vb-in{width:100%;background:#0e1117;border:1px solid #30363d;border-radius:4px;color:#e6edf3;padding:8px 10px;font-family:'Barlow',sans-serif;font-size:14px;margin-bottom:8px;outline:none;transition:border-color .15s;display:block;}
+.vb-in:focus{border-color:var(--ac);}.vb-in::placeholder{color:#3d444d;}
+textarea.vb-in{min-height:72px;resize:vertical;}
+.fa{display:flex;gap:8px;justify-content:flex-end;margin-top:4px;}
+.vb-post{background:#161b22;border:1px solid #21262d;border-radius:8px;margin-bottom:10px;overflow:hidden;transition:border-color .15s;}
+.vb-post:hover{border-color:#30363d;}
+.pi{display:flex;}
+.vc{width:36px;min-width:36px;background:#0d1117;display:flex;flex-direction:column;align-items:center;padding:10px 0 8px;gap:2px;}
+.vb2{background:none;border:none;cursor:pointer;color:#3d444d;font-size:15px;padding:2px 4px;line-height:1;border-radius:3px;transition:color .1s,transform .12s;}
+.vb2:hover{color:var(--ac);}.vb2.ua{color:var(--ac);transform:scale(1.3);}.vb2.da{color:#e03030;transform:scale(1.3);}
+.vct{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:#6e7681;transition:color .15s;}
+.vct.pos{color:var(--ac);}.vct.neg{color:#e03030;}
+.pc{padding:10px 12px 8px;flex:1;min-width:0;}
+.pm{font-size:11px;color:#3d444d;margin-bottom:4px;}
+.pm .un{color:#6e7681;}
+.pt{font-size:16px;font-weight:600;color:#e6edf3;margin-bottom:5px;line-height:1.35;}
+.pb{font-size:13px;color:#6e7681;line-height:1.5;margin-bottom:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.tgs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;}
+.tg{background:#1c2128;border:1px solid #30363d;border-radius:3px;padding:2px 7px;font-size:11px;font-family:'Space Mono',monospace;color:#6e7681;}
+.pa{display:flex;gap:2px;}
+.ab{background:none;border:none;color:#3d444d;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;padding:5px 8px;border-radius:4px;cursor:pointer;transition:background .1s,color .1s;}
+.ab:hover{background:#1c2128;color:#6e7681;}
+.ab.op{background:var(--ac-bg);color:var(--ac);transition:background .25s,color .25s;}
+.cs{border-top:1px solid #21262d;background:#0d1117;padding:12px;}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.ct{font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ac);transition:color .25s;}
+.rb{background:none;border:1px solid #30363d;color:#6e7681;font-family:'Space Mono',monospace;font-size:10px;padding:3px 8px;border-radius:3px;cursor:pointer;text-transform:uppercase;letter-spacing:.05em;transition:border-color .15s,color .15s;}
+.rb:hover{border-color:var(--ac);color:var(--ac);}.rb:disabled{opacity:.4;cursor:default;pointer-events:none;}
+.lm{text-align:center;padding:20px;font-family:'Space Mono',monospace;font-size:12px;color:#3d444d;}
+.em{text-align:center;padding:16px;font-size:12px;color:#e03030;font-family:'Space Mono',monospace;}
+.cmt{display:flex;gap:10px;margin-bottom:12px;animation:fu .2s ease;}
+@keyframes fu{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+.cav{font-size:18px;flex-shrink:0;line-height:1;margin-top:1px;}
+.cb{flex:1;min-width:0;}
+.cmeta{font-size:11px;color:#3d444d;margin-bottom:3px;}
+.cu{color:#6e7681;font-weight:600;}
+.ctxt{font-size:13px;line-height:1.5;color:#c9d1d9;}
+.csc{font-family:'Space Mono',monospace;font-size:10px;color:#3d444d;margin-top:4px;}
+.csc.pos{color:var(--ac);}.csc.neg{color:#e03030;}
+.new-badge{display:inline-block;background:var(--ac);color:white;font-size:10px;font-family:'Space Mono',monospace;padding:1px 5px;border-radius:2px;margin-left:6px;vertical-align:middle;text-transform:uppercase;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+<div class="vb" id="vb-app">
+  <header class="vb-hdr">
+    <div class="vb-logo">vibe<span class="lo">ddit</span></div>
+    <div class="mw">
+      <span class="lg">wholesome</span>
+      <button class="tgl" id="mode-tgl"></button>
+      <span class="lb">brutal</span>
+    </div>
+  </header>
+  <div class="vb-body">
+    <div class="vb-banner">
+      <div>
+        <div class="sn">r/<span class="hi">vibecoded</span></div>
+        <div class="sd" id="sub-desc">Post your AI-assisted projects. Get the dopamine without annoying everyone.</div>
+      </div>
+      <button class="bp" id="toggle-form-btn">+ Create Post</button>
+    </div>
+    <div id="vb-form" style="display:none" class="vb-form">
+      <div class="ftitle">// submit your vibe coded project</div>
+      <input class="vb-in" type="text" id="f-title" placeholder="Title — be honest about how it was made" />
+      <textarea class="vb-in" id="f-desc" placeholder="Description — what does it do, how many corners were cut?"></textarea>
+      <input class="vb-in" type="text" id="f-tags" placeholder="Tech tags, comma separated (e.g. Python, Docker, Regret)" />
+      <div class="fa">
+        <button class="bg" id="cancel-form-btn">Cancel</button>
+        <button class="bp" id="submit-btn">Post It</button>
+      </div>
+    </div>
+    <div id="posts-container"></div>
+  </div>
+</div>
+
+<script>
+const AVATARS=['🤖','🦾','🧠','⚡','🔥','🐧','🦆','🐳','🦀','🌚','👾','🔮'];
+const SEED=[
+  {id:1,title:"I vibe coded a Prometheus replacement in a weekend — uses vibes instead of metrics",desc:"Fed up with Grafana dashboards that require actual knowledge to set up. My app just asks 'how does your server feel today?' and displays a mood ring. 3 Dockerfiles, no tests, shipping to prod Monday.",author:"moody_sysadmin_42",tags:["Python","Docker","Flask","Feelings"],upvotes:2341,vote:null,ago:"6 hours ago"},
+  {id:2,title:"[SHOW r/vibecoded] I rewrote Nginx in JavaScript because I didn't understand nginx.conf",desc:"It's basically Express.js with a very confident README. Handles maybe 3 concurrent requests on a good day. Looking for contributors who also aren't sure what a reverse proxy actually is.",author:"reverse_proxy_curious",tags:["Node.js","\"Networking\"","Docker","Bold Choices"],upvotes:891,vote:null,ago:"1 day ago"},
+  {id:3,title:"My AI-powered backup solution — it backs up what IT thinks is important",desc:"Why manually configure rsync when an LLM can decide what matters? It skipped my entire /home directory last week because it 'didn't think it was critical'. Still debugging. GitHub stars appreciated.",author:"yolo_backup_strategy",tags:["Python","OpenAI","Regret","Backup"],upvotes:4102,vote:null,ago:"2 days ago"}
+];
+
+let mode='supportive';
+let posts=SEED.map(p=>({...p,open:false,comments:[],loading:false,err:null,lid:0}));
+let nid=10;
+
+function gav(s){const h=s.split('').reduce((a,c)=>(a*31+c.charCodeAt(0))&0xffff,0);return AVATARS[h%AVATARS.length];}
+function fmt(n){return n>=1000?(n/1000).toFixed(1)+'k':String(n);}
+
+function renderPosts(){
+  document.getElementById('posts-container').innerHTML=posts.map(phtml).join('');
+  posts.forEach(p=>{
+    const u=document.getElementById('vu-'+p.id),d=document.getElementById('vd-'+p.id),c=document.getElementById('cb-'+p.id);
+    if(u)u.addEventListener('click',()=>vote(p.id,'up'));
+    if(d)d.addEventListener('click',()=>vote(p.id,'down'));
+    if(c)c.addEventListener('click',()=>toggleCmts(p.id));
+    if(p.open){const r=document.getElementById('rg-'+p.id);if(r)r.addEventListener('click',()=>loadCmts(p.id));}
+  });
+}
+
+function phtml(p){
+  return`<div class="vb-post" id="post-${p.id}"><div class="pi"><div class="vc">
+    <button class="vb2${p.vote==='up'?' ua':''}" id="vu-${p.id}">▲</button>
+    <div class="vct${p.vote==='up'?' pos':p.vote==='down'?' neg':''}" id="vc-${p.id}">${fmt(p.upvotes)}</div>
+    <button class="vb2${p.vote==='down'?' da':''}" id="vd-${p.id}">▼</button>
+  </div><div class="pc">
+    <div class="pm">Posted by <span class="un">u/${p.author}</span> · ${p.ago}${p.id>=10?'<span class="new-badge">new</span>':''}</div>
+    <div class="pt">${p.title}</div>
+    ${p.desc?`<div class="pb">${p.desc}</div>`:''}
+    ${p.tags.length?`<div class="tgs">${p.tags.map(t=>`<span class="tg">${t}</span>`).join('')}</div>`:''}
+    <div class="pa"><button class="ab${p.open?' op':''}" id="cb-${p.id}">💬 ${p.comments.length>0?p.comments.length+' Comments':'Comments'}</button></div>
+  </div></div>${p.open?chtml(p):''}</div>`;
+}
+
+function chtml(p){
+  const lbl=mode==='supportive'?'✨ wholesome mode':'💀 brutal mode';
+  let inner=p.loading?`<div class="lm" id="lm-${p.id}">generating opinions...</div>`:
+    p.err?`<div class="em">${p.err}</div>`:
+    p.comments.map(c=>`<div class="cmt"><div class="cav">${gav(c.username)}</div><div class="cb"><div class="cmeta"><span class="cu">u/${c.username}</span> · ${fmt(c.karma)} karma · ${c.ago}</div><div class="ctxt">${c.text}</div><div class="csc${c.score>0?' pos':c.score<0?' neg':''}">${c.score>0?'+':''}${c.score} points</div></div></div>`).join('');
+  return`<div class="cs" id="cs-${p.id}"><div class="ch"><div class="ct">${lbl}</div><button class="rb" id="rg-${p.id}"${p.loading?' disabled':''}>↺ Regenerate</button></div>${inner}</div>`;
+}
+
+function updCmts(p){
+  const el=document.getElementById('cs-'+p.id);
+  if(el){el.outerHTML=chtml(p);}else{const pe=document.getElementById('post-'+p.id);if(pe)pe.insertAdjacentHTML('beforeend',chtml(p));}
+  const r=document.getElementById('rg-'+p.id);if(r)r.addEventListener('click',()=>loadCmts(p.id));
+}
+
+function vote(pid,dir){
+  const p=posts.find(x=>x.id===pid);if(!p)return;
+  const prev=p.vote;
+  if(dir===prev){p.vote=null;p.upvotes+=dir==='up'?-1:1;}
+  else{p.upvotes+=dir==='up'?(prev==='down'?2:1):(prev==='up'?-2:-1);p.vote=dir;}
+  const u=document.getElementById('vu-'+pid),d=document.getElementById('vd-'+pid),c=document.getElementById('vc-'+pid);
+  if(u)u.className='vb2'+(p.vote==='up'?' ua':'');
+  if(d)d.className='vb2'+(p.vote==='down'?' da':'');
+  if(c){c.className='vct'+(p.vote==='up'?' pos':p.vote==='down'?' neg':'');c.textContent=fmt(p.upvotes);}
+}
+
+function toggleCmts(pid){
+  const p=posts.find(x=>x.id===pid);if(!p)return;
+  if(p.open){
+    p.open=false;
+    const s=document.getElementById('cs-'+pid);if(s)s.remove();
+    const b=document.getElementById('cb-'+pid);if(b)b.className='ab';
+  }else{loadCmts(pid);}
+}
+
+async function loadCmts(pid,om){
+  const p=posts.find(x=>x.id===pid);if(!p)return;
+  const cm=om||mode;
+  p.lid++;const myLid=p.lid;
+  p.open=true;p.loading=true;p.comments=[];p.err=null;
+  const b=document.getElementById('cb-'+pid);if(b)b.className='ab op';
+  updCmts(p);
+  let dots=0;
+  const itv=setInterval(()=>{
+    dots=(dots+1)%4;
+    const lm=document.getElementById('lm-'+pid);
+    if(lm)lm.textContent='generating opinions'+'...'.slice(0,dots);
+    else clearInterval(itv);
+  },400);
+  try{
+    const cmts=await callAPI(p,cm);
+    clearInterval(itv);
+    if(p.lid!==myLid)return;
+    p.loading=false;p.comments=cmts;
+    updCmts(p);
+    const cb=document.getElementById('cb-'+pid);if(cb)cb.textContent='💬 '+cmts.length+' Comments';
+  }catch(e){
+    clearInterval(itv);
+    if(p.lid!==myLid)return;
+    p.loading=false;p.err='API error — check backend logs';
+    updCmts(p);
+  }
+}
+
+async function callAPI(post,cm){
+  const sp=cm==='supportive'
+    ?'You generate comments from enthusiastic, wholesome members of r/vibecoded. Always encouraging, ask about Docker Compose files, request ARM support, say things like "This is exactly what I needed!", "Subbed!", "PR incoming", "Would love a dark mode option", "What auth does it use?". Supportive to a fault.'
+    :'You generate comments from the classic skeptical crowd of self-hosting subreddits. Question every choice, compare unfavorably to mature solutions, worry about abandonment, raise security concerns. Say things like "Why not just use Portainer?", "This will be abandoned in 3 months", "Have you heard of Authentik?", "Storing creds in .env, bold strategy", "Until the next vibe coded CVE".';
+  const resp=await fetch('/api/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+    model:'claude-sonnet-4-20250514',max_tokens:1000,
+    system:sp+'\n\nReturn ONLY a raw JSON array (no markdown). Each object: username (snake_case, funny homelab username), karma (int 100-25000), score (int: supportive 5-400, hostile -8-150), text (1-3 sentences, authentic Reddit voice), ago (like "2 hours ago"). Exactly 5 comments.',
+    messages:[{role:'user',content:`Title: "${post.title}"\nBody: "${post.desc}"\nTags: ${post.tags.join(', ')}`}]
+  })});
+  if(!resp.ok)throw new Error('HTTP '+resp.status);
+  const data=await resp.json();
+  const raw=data.content?.find(b=>b.type==='text')?.text||'[]';
+  return JSON.parse(raw.replace(/```json\n?|```/g,'').trim());
+}
+
+document.getElementById('mode-tgl').addEventListener('click',()=>{
+  mode=mode==='supportive'?'hostile':'supportive';
+  document.getElementById('vb-app').classList.toggle('hostile',mode==='hostile');
+  document.getElementById('mode-tgl').classList.toggle('hostile',mode==='hostile');
+  const sd=document.getElementById('sub-desc');
+  if(mode==='hostile')sd.innerHTML='Post your AI-assisted projects. <span class="w">⚠️ Brutal mode active. Comments may sting.</span>';
+  else sd.textContent='Post your AI-assisted projects. Get the dopamine without annoying everyone.';
+  posts.forEach(p=>{if(p.open)loadCmts(p.id,mode);});
+});
+
+let fv=false;
+document.getElementById('toggle-form-btn').addEventListener('click',()=>{
+  fv=!fv;
+  document.getElementById('vb-form').style.display=fv?'block':'none';
+  document.getElementById('toggle-form-btn').textContent=fv?'✕ Cancel':'+ Create Post';
+});
+document.getElementById('cancel-form-btn').addEventListener('click',()=>{
+  fv=false;document.getElementById('vb-form').style.display='none';
+  document.getElementById('toggle-form-btn').textContent='+ Create Post';
+});
+document.getElementById('submit-btn').addEventListener('click',()=>{
+  const t=document.getElementById('f-title').value.trim();if(!t)return;
+  const d=document.getElementById('f-desc').value.trim();
+  const tr=document.getElementById('f-tags').value.trim();
+  const tags=tr?tr.split(',').map(x=>x.trim()).filter(Boolean):[];
+  posts.unshift({id:nid++,title:t,desc:d,author:'you_probably',tags,upvotes:1,vote:'up',ago:'just now',open:false,comments:[],loading:false,err:null,lid:0});
+  document.getElementById('f-title').value='';document.getElementById('f-desc').value='';document.getElementById('f-tags').value='';
+  fv=false;document.getElementById('vb-form').style.display='none';
+  document.getElementById('toggle-form-btn').textContent='+ Create Post';
+  renderPosts();
+});
+
+renderPosts();
+</script>
+</body>
+</html>
